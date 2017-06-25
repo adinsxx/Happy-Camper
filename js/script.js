@@ -37,10 +37,8 @@ function initMap() {
       mapTypeControl: false
     });
  }
-
-ko.applyBindings(new ViewModel());
-
-    
+ 
+ ko.applyBindings(new ViewModel());
 
 //Display error when google maps isn't functioning
 function gError() {
@@ -49,18 +47,19 @@ function gError() {
 
 //Constructor
  var Place = function (data) {
- 		this.name = ko.oberserable(data.name);
- 		this.lat = ko.oberserable(data.lat);
- 		this.lng = ko.oberserable(data.lng);
- 		this.marker = ko.oberserable();
+ 		this.name = ko.observable(data.name);
+ 		this.lat = ko.observable(data.lat);
+ 		this.lng = ko.observable(data.lng);
+ 		this.marker = ko.observable();
  };
+
 //ViewModel
-var ViewModel = function() {
+function ViewModel() {
 	//Binding
 	var self = this;
 
 	//Create a blank array to store locations
-	this.placeList = ko.oberserableArray([]);
+	this.placeList = ko.observableArray([]);
 
 	//Create the inforwindow
 	var infowindow = new google.maps.InfoWindow({
@@ -97,13 +96,13 @@ var ViewModel = function() {
 				document.getElementById("error").innerHTML = "<h2>New York Times is currently unavailable. Please try refreshing.</h2>";
 		});
 
-		self.visible = ko.oberserableArray();
+		self.visible = ko.observableArray();
 
 		self.placeList().forEach(function (place) {
 			self.visible.push(place);
 		});
 
-		self.userInput = ko.oberserable('');
+		self.userInput = ko.observable('');
 
 		self.filterMarkers = function () {
 			var searchInput = self.userInput().toLowerCase();
@@ -137,6 +136,8 @@ var ViewModel = function() {
 	//Tracks user input
 	};
 	
+
+
 
 	
 
