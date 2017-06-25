@@ -4,18 +4,19 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Happy Camper</title>
-	<link rel="stylesheet/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 	<body>
-		<!-- <div id ="map"></div> -->
-		<div id="map"></div>
-			<div id="pageTitle"><h2>Happy Camper</h2></div>
-				<input id="search" placeholder="Search by name" data-bind="textInput: userInput, event: {keyup: filterMarkers}">
+		<div id="pageTitle"><h2>Happy Camper</h2></div>
+			<div data-bind="">
+			<input id="search" placeholder="Search by name" data-bind="textInput: userInput, event: {keyup: filterMarkers}">
 				<div id="list-holder">
 					<ul id="list-view" data-bind="foreach: visible">
 						<li id="list-name" data-bind="text: name, click: $parent.showInfo"></li>
 					</ul>
 				</div>
+			   </div>
+			<div id="map"></div>
 		</div>
 		<div id="error"></div>
 		

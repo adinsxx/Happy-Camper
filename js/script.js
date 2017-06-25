@@ -34,12 +34,12 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 43.78444, lng: -88.787868 },
       zoom: 8,
-      mapTypeControl: false
+      disableDefaultUI: true
     });
+
+    ko.applyBindings(new ViewModel());
  }
  
- ko.applyBindings(new ViewModel());
-
 //Display error when google maps isn't functioning
 function gError() {
 	document.getElementById('error').innerHTML = "<h2>Google maps experienced an issue, please try refreshing the page/h2>";
@@ -51,6 +51,8 @@ function gError() {
  		this.lat = ko.observable(data.lat);
  		this.lng = ko.observable(data.lng);
  		this.marker = ko.observable();
+ 		this.phone = ko.observable('');
+ 		this.address = ko.observable('');
  };
 
 //ViewModel
@@ -84,17 +86,41 @@ function ViewModel() {
 						url: 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + placeItem.id() + '&sort=newest&api-key=811c11907c2f4cc0b1badc65bd16229f',
 						dataType: "json",
 				});
+
+
 				//Create event listeners for InfoWindow
 				google.maps.event.addListener(placeItem.marker, 'click', function () {
-						infowindow.open(map, this);
-						map.setCenter(placeItem.marker.getPosition());
+                    infowindow.open(map, this);
+                    // Bounce animation credit https://github.com/Pooja0131/FEND-Neighbourhood-Project5a/blob/master/js/app.js
+                    placeItem.marker.setAnimation(google.maps.Animation.DROP);
+                    setTimeout(function () {
+                        placeItem.marker.setAnimation(null);
+                    }, 500);
+                    infowindow.setContent(contentString);
+                    map.setCenter(placeItem.marker.getPosition());
+                });
+
+                google.maps.event.addListener(marker, 'click', function (){
+					infowindow.open(map, this);
+					placeItem.marker.setAnimation(google.maps.Animation.DROP);
+					setTimeout(function () {
+						placeItem.marker.setAnimation(null);
+					  }, 500);
 				});
+
 
 			},
 			error = function (e) {
 				infowindow.setContent('<h2>New York Times is currently unavailable. Please try refreshing.</h2>');
 				document.getElementById("error").innerHTML = "<h2>New York Times is currently unavailable. Please try refreshing.</h2>";
 		});
+
+				
+		self.showInfo = function(placeItem) {
+			google.maps.event.trigger(placeItem.marker, 'click');
+			self.hideElements();
+		};
+
 
 		self.visible = ko.observableArray();
 
@@ -134,7 +160,7 @@ function ViewModel() {
 	//Makes all markers visible by default
 
 	//Tracks user input
-	};
+	}
 	
 
 
