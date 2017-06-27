@@ -1,6 +1,6 @@
 'use strict';
 
-var locations = ko.observableArray([
+var locations = [
 	{
 		name: "Devil's Lake State Park",
 		lat: 43.428447,
@@ -26,7 +26,7 @@ var locations = ko.observableArray([
 		lat: 43.0295,
 		lng: -89.840716
 	}
-]);
+];
 
 var map;
 var clientID;
@@ -112,9 +112,9 @@ var Location = function (data) {
 function ViewModel() {
 	var self = this;
 
-	this.searchInput = ko.observable("");
+	self.searchInput = ko.observable("");
 
-	this.locationList = ko.observableArray([]);
+	self.locations = ko.observableArray([]);
 
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 8,
@@ -124,19 +124,19 @@ function ViewModel() {
 	clientID = "MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A";
 	clientSecret = "RVOVYY5PK5MTOVLQV03K5ZZRD2B444VCNY0FSBYCJDFBMQBW"
 
-	locationList.forEach(function(locationItem){
-		this.locationList.push(new Location(locationItem));
+	locations.forEach(function(locationItem){
+		self.locations.push(new Location(locationItem));
 	});
 
 	self.filteredList = ko.computed(function() {
 		var filter = self.searchTerm().toLowerCase();
 		if(!filter) {
-			self.locationList().forEach(function(locationItem) {
+			self.locations().forEach(function(locationItem) {
 				locationItem.visible(true);
 			});
-			return self.locationList();
+			return self.locations();
 		} else {
-			return ko.utils.arrayFilter(self.locationList(), function(locationItem){
+			return ko.utils.arrayFilter(self.locations(), function(locationItem){
 				var string = locationItem.name.toLowerCase();
 				var result = (string.search(filter) >= 0);
 				locationItem.visible(result);
