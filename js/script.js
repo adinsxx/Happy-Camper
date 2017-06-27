@@ -114,7 +114,7 @@ function ViewModel() {
 
 	this.searchInput = ko.observable("");
 
-	this.locations = ko.observableArray([]);
+	this.locationsList = ko.observableArray([]);
 
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 8,
@@ -124,19 +124,19 @@ function ViewModel() {
 	clientID = "MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A";
 	clientSecret = "RVOVYY5PK5MTOVLQV03K5ZZRD2B444VCNY0FSBYCJDFBMQBW"
 
-	locations.forEach(function(locationItem){
-		self.locations.push(new Location(locationItem));
+	locationsList.forEach(function(locationItem){
+		this.locationList.push(new Location(locationItem));
 	});
 
 	self.filteredList = ko.computed(function() {
 		var filter = self.searchTerm().toLowerCase();
 		if(!filter) {
-			self.locations().forEach(function(locationItem) {
+			self.locationsList().forEach(function(locationItem) {
 				locationItem.visible(true);
 			});
-			return self.locations();
+			return self.locationsList();
 		} else {
-			return ko.utils.arrayFilter(self.locations(), function(locationItem){
+			return ko.utils.arrayFilter(self.locationsList(), function(locationItem){
 				var string = locationItem.name.toLowerCase();
 				var result = (string.search(filter) >= 0);
 				locationItem.visible(result);
