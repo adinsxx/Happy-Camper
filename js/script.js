@@ -112,9 +112,9 @@ var Location = function (data) {
 function ViewModel() {
 	var self = this;
 
-	self.searchInput = ko.observable("");
+	this.searchInput = ko.observable("");
 
-	self.locations = ko.observableArray([]);
+	this.locations = ko.observableArray([]);
 
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 8,
