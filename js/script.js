@@ -1,171 +1,159 @@
-//Model
+'use strict';
+
 var locations = [
-       {
-	       title: "Devil's Lake State Park", 
-	       lat:43.428447, 
-	       lng:-89.731368
-	     },
-       {
-	       title: "High Cliff State Park", 
-	       lat:44.163103, 
-	       lng:-88.29097
-       },
-       {
-       	 title: "Rock Island State Park", 
-       	 lat:45.409337, 
-       	 lng:-86.829068 
-       },
-       {
-       	 title: "Newport State Park", 
-       	 lat:45.245478, 
-       	 lng:-86.998189
-       },
-       {
-       	title: "Peninsula State Park", 
-       	at:45.148943, 
-       	lng:-87.210988
-       }
+	{
+		name: "Devil's Lake State Park",
+		lat: 43.428447,
+		lng: -89.731368
+	},
+	{
+		name: "High Cliff State Park",
+		lat: 44.163103,
+		lng: -88.29097
+	},
+	{
+		name: "Harrington Beach State Park",
+		lat: 43.492876,
+		lng: -87.803664
+	},
+	{
+		name: "Kohler-Andrae State Park",
+		lat: 43.664985,
+		lng: -87.719721
+	},
+	{
+		name: "Blue Mound State Park",
+		lat: 43.0295,
+		lng: -89.840716
+	}
+];
 
-    ];
-
-//This makes the map viewable
 var map;
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 43.78444, lng: -88.787868 },
-      zoom: 8,
-      disableDefaultUI: true
-    });
+var clientID;
+var clientSecret;
 
-    ko.applyBindings(new ViewModel());
- }
- 
-//Display error when google maps isn't functioning
-function gError() {
-	document.getElementById('error').innerHTML = "<h2>Google maps experienced an issue, please try refreshing the page/h2>";
-}
-
-//Constructor
- var Place = function (data) {
- 		this.name = ko.observable(data.name);
- 		this.lat = ko.observable(data.lat);
- 		this.lng = ko.observable(data.lng);
- 		this.marker = ko.observable();
- 		this.phone = ko.observable('');
- 		this.address = ko.observable('');
- };
-
-//ViewModel
-function ViewModel() {
-	//Binding
+var Location = function (data) {
 	var self = this;
+	this.name = data.name;
+	this.lat = data.lat;
+	this.lng = data.lng;
+	this.URL = "";
+	this.street = "";
+	this.city = "";
+	this.phone = "";
 
-	//Create a blank array to store locations
-	this.placeList = ko.observableArray([]);
+	this.visible = ko.observable(true);
 
-	//Create the inforwindow
-	var infowindow = new google.maps.InfoWindow({
-			maxWidth: 200,
-			maxHeight: 200
+	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + this.lat + ',' + this.lng + +'&client_id=' + 'MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A' + '&client_secret=' + 'RVOVYY5PK5MTOVLQV03K5ZZRD2B444VCNY0FSBYCJDFBMQBW' + '&v=20170626' + '&query=' + this.name; 
+
+	$.getJSON(foursquareURL).done(function(data) {
+		var results = data.response.venues[0];
+		self.URL = results.url;
+		if (typeof self.URL === 'undefined'){
+			self.URL = "";
+
+		}
+		self.street = results.location.formattedAddress[0];
+	self.state = results.location.formattedAddress[1];
+	self.phone = results.contact.phone;
+	if (typeof self.phone === 'undefined'){
+			   self.phone = "";
+		} else {
+				self.phone = formatPhone(self.phone);
+		}
+	}).fail(function(){
+		alert("There was an error retreiving information from foursquare. Please refresh the page try again.")
 	});
 
-	//Create the marker
-	var marker;
-		//Create markers, info for locations and set event listeneres for the IW
-		self.placeList().forEach(function(placeItem){
-			//Define markers
-				marker = new google.maps.Marker({
-						position: new google.maps.LatLng(placeItem.lat(), placeItem.lng()),
-						map: map,
-						animation: google.maps.Animation.DROP
-				});
-				placeItem.marker = marker;
+	this.contentString = '<div class="info-window-content"><div class="title"><b>' + data.name + "</b></div>" +
+	'<div class="content"><a href="' + self.URL +'">' + self.URL + "</a></div>" +
+	'<div class="content">' + self.street + "</div>" +
+	'<div class="content">' + self.state + "</div>" +
+	'<div class="content">' + self.phone + "</div></div>";
 
-				//AJAX request for NYT
-				$.ajax({
-						url: 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + placeItem.id() + '&sort=newest&api-key=811c11907c2f4cc0b1badc65bd16229f',
-						dataType: "json",
-				});
+	this.infoWindow = new google.maps.InfoWindow({content: self.contentString});
 
+	this.maker = new google.maps.Marker({
+		position: new google.maps.LatLng(data.lat, data.lng),
+		map: map,
+		title: data.name
+	});
 
-				//Create event listeners for InfoWindow
-				google.maps.event.addListener(placeItem.marker, 'click', function () {
-                    infowindow.open(map, this);
-                    // Bounce animation credit https://github.com/Pooja0131/FEND-Neighbourhood-Project5a/blob/master/js/app.js
-                    placeItem.marker.setAnimation(google.maps.Animation.DROP);
-                    setTimeout(function () {
-                        placeItem.marker.setAnimation(null);
-                    }, 500);
-                    infowindow.setContent(contentString);
-                    map.setCenter(placeItem.marker.getPosition());
-                });
+	this.showMarker = ko.computed(function() {
+		if(this.visible() === true) {
+			this.marker.setMap(map);
+		} else {
+			this.marker.setMap(null);
+		}
+		return true;
+	}, this);
 
-                google.maps.event.addListener(marker, 'click', function (){
-					infowindow.open(map, this);
-					placeItem.marker.setAnimation(google.maps.Animation.DROP);
-					setTimeout(function () {
-						placeItem.marker.setAnimation(null);
-					  }, 500);
-				});
+	this.marker.addListener('click', function() {
+		self.contentString = '<div class="info-window-content"><div class="title"><b>' + data.name + "</b></div>" +
+	'<div class="content"><a href="' + self.URL +'">' + self.URL + "</a></div>" + 
+	'<div class="content">' + self.street + "</div>" +
+	'<div class="content"><a href="tel:' + self.phone + '">' + self.phone +"</a></div></div>";
 
+	self.infoWindow.setContent(self.contentString);
 
-			},
-			error = function (e) {
-				infowindow.setContent('<h2>New York Times is currently unavailable. Please try refreshing.</h2>');
-				document.getElementById("error").innerHTML = "<h2>New York Times is currently unavailable. Please try refreshing.</h2>";
-		});
+		self.infoWindow.open(map, this);
 
-				
-		self.showInfo = function(placeItem) {
-			google.maps.event.trigger(placeItem.marker, 'click');
-			self.hideElements();
-		};
+		self.marker.setAnimation(google.maps.Animation.BOUNCE);
+	setTimeout(function() {
+			self.marker.setAnimation(null);
+	}, 2100)
+	});
 
+	this.bounce = function(place) {
+		google.maps.event.trigger(self.marker, 'click');
+	};
+};
 
-		self.visible = ko.observableArray();
+function ViewModel() {
+	var self = this;
 
-		self.placeList().forEach(function (place) {
-			self.visible.push(place);
-		});
+	this.searchInput = ko.observable("");
 
-		self.userInput = ko.observable('');
+	this.placeList = ko.observable([]);
 
-		self.filterMarkers = function () {
-			var searchInput = self.userInput().toLowerCase();
-			self.visible.removeAll();
-			self.placeList().forEach(function (place) {
-					place.marker.setVisible(false);
-					if (place.name().toLowerCase().indexOf(searchInput) !== -1){
-							self.visible.push(place);
-					}
+	map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 12,
+		center: {lat: 43.78444, lng: -88.787868}
+	});
+
+	clientID = "MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A";
+	clientSecret = "RVOVYY5PK5MTOVLQV03K5ZZRD2B444VCNY0FSBYCJDFBMQBW"
+
+	locations.forEach(function(locationItem){
+		self.locationList.push(new Location(locationItem));
+	});
+
+	this.filteredList = ko.computed(function() {
+		var filter = self.searchTerm().toLowerCase();
+		if(!filter) {
+			self.locationList().forEach(function(locationItem) {
+				locationItem.visible(true);
 			});
-			self.visible().forEach(function (place) {
-					place.marker.setVisible(true);
+			return self.locationList();
+		} else {
+			return ko.utils.arrayFilter(self.locationList(), function(locationItem){
+				var string = locationItem.name.toLowerCase();
+				var result = (string.search(filter) >= 0);
+				locationItem.visible(result);
+				return result;
 			});
-		};
+		}
+	}, self);
 
+	this.mapElem = document.getElementById('map');
+	this.mapElem.style.height = window.innerHeight - 50;
+}
 
+function startApp() {
+	ko.applyBindings(new ViewModel());
+}
 
-		//Display error when GET request fails for AJAX
-		//Create the messages in the DOM and infowindow
-
-		//EListener that displays AJAX error in IW
-
-	//Activates marker from corresponding list item
-
-	//Filters markers based on input
-
-	//Array containing markers based on search
-
-	//Makes all markers visible by default
-
-	//Tracks user input
-	}
-	
-
-
-
-	
-
-
+function errorHandling() {
+	alert("Google Maps pooped out. Refresh the page and maybe it'll stop being lazy.")
+}
 
