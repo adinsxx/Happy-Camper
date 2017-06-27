@@ -73,7 +73,7 @@ var Location = function (data) {
 
 	this.infoWindow = new google.maps.InfoWindow({content: self.contentString});
 
-	this.maker = new google.maps.Marker({
+	this.marker = new google.maps.Marker({
 		position: new google.maps.LatLng(data.lat, data.lng),
 		map: map,
 		title: data.name
@@ -125,7 +125,7 @@ function ViewModel() {
 	clientSecret = "RVOVYY5PK5MTOVLQV03K5ZZRD2B444VCNY0FSBYCJDFBMQBW"
 
 	locations.forEach(function(locationItem){
-		self.locationList.push(new Location(locationItem));
+		self.locationsList.push(new Location(locationItem));
 	});
 
 	self.filteredList = ko.computed(function() {
