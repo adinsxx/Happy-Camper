@@ -124,8 +124,8 @@ function ViewModel() {
 	clientID = "MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A";
 	clientSecret = "RVOVYY5PK5MTOVLQV03K5ZZRD2B444VCNY0FSBYCJDFBMQBW"
 
-	locationsList.forEach(function(locationItem){
-		this.locationList.push(new Location(locationItem));
+	locations.forEach(function(locationItem){
+		self.locationList.push(new Location(locationItem));
 	});
 
 	self.filteredList = ko.computed(function() {
