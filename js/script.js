@@ -129,7 +129,7 @@ function ViewModel() {
 	});
 
 	self.filteredList = ko.computed(function() {
-		var filter = self.searchTerm().toLowerCase();
+		var filter = self.searchInput().toLowerCase();
 		if(!filter) {
 			self.locationsList().forEach(function(locationItem) {
 				locationItem.visible(true);
