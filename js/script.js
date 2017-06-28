@@ -125,7 +125,7 @@ var Location = function (data) {
 };
 
 function ViewModel() {
-	[
+	var styles = [
     {
         "featureType": "all",
         "elementType": "labels.text.fill",
@@ -189,7 +189,8 @@ function ViewModel() {
 
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 8,
-		center: {lat: 43.78444, lng: -88.787868}
+		center: {lat: 43.78444, lng: -88.787868},
+		styles: styles
 	});
 
 	client_ID = "MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A";
