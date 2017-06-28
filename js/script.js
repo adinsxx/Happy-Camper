@@ -50,6 +50,7 @@ function formatPhone(phonenum) {
 
 //Contstructor for all of the data being applied to the map
 var Location = function (data) {
+	'use strict';
 	var self = this;
 	this.name = data.name;
 	this.lat = data.lat;
