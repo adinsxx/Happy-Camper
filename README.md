@@ -19,3 +19,14 @@ Similarly, the app can be viewed here: https://adinsxx.github.io/Happy-Camper/
 as well as the drawing tools!</h3>
 
 In the coming days and weeks, I will be adding in more campsites to expand. I hope you enjoy playing around with the application!
+
+
+<h2>Reference Material</h2>
+I'd like to thank both Karol and Sarah who are both forum mentors at Udacity for helping me out with this. Here are a few links that helped me finish my project. 
+https://stackoverflow.com/questions/4338267/validate-phone-number-with-javascript
+http://knockoutjs.com/documentation/introduction.html
+https://discussions.udacity.com/t/trouble-shooting-a-google-maps-error/289637
+https://developers.google.com/maps/documentation/javascript/examples/marker-simple
+https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function
