@@ -13,6 +13,7 @@ body {
       height: 50px;
       font-size: 1em;
       padding: 5px 20px;
+      background-color: #d6d5d5;
 }
 
 .app {
@@ -24,7 +25,7 @@ body {
 .list {
       order: 1;
       flex-grow: 1;
-      background-color: #055;
+      background-color: #808080;
 }
 
 .map {
@@ -44,7 +45,7 @@ body {
       margin: 10px;
       padding: 10px;
       list-style: none;
-      background-color: #088;
+      background-color: #9c9c9c;
 }
 
 @media only screen and (max-device-width: 959px), only screen and (max-width: 959px) {
