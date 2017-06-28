@@ -1,4 +1,3 @@
-'use strict';
 // Model containing locations
 var locations = [
 	{
@@ -81,7 +80,7 @@ var Location = function (data) {
 		self.phone = formatPhone(self.phone);
 		}
 	}).fail(function(){
-		alert("There was an error retreiving information from foursquare. Please refresh the page try again.")
+		alert("There was an error retreiving information from foursquare. Please refresh the page try again.");
 	});
 
 	this.contentString = '<div class="info-window-content"><div class="title"><b>' + data.name + "</b></div>" +
@@ -120,7 +119,7 @@ var Location = function (data) {
 		self.marker.setAnimation(google.maps.Animation.BOUNCE);
 	setTimeout(function() {
 			self.marker.setAnimation(null);
-	}, 2100)
+	}, 2100);
 	});
 
 	this.bounce = function(place) {
@@ -233,6 +232,6 @@ function startApp() {
 }
 
 function errorHandling() {
-	alert("Google Maps pooped out. Refresh the page and maybe it'll stop being lazy.")
+	alert("Google Maps pooped out. Refresh the page and maybe it'll stop being lazy.");
 }
 
