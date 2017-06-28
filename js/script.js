@@ -29,8 +29,8 @@ var locations = [
 ];
 
 var map;
-var clientID;
-var clientSecret;
+var client_ID;
+var client_Secret;
 
 var Location = function (data) {
 	var self = this;
@@ -44,7 +44,7 @@ var Location = function (data) {
 
 	this.visible = ko.observable(true);
 
-	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + this.lat + ',' + this.lng + +'&client_id=' + 'MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A' + '&client_secret=' + 'RVOVYY5PK5MTOVLQV03K5ZZRD2B444VCNY0FSBYCJDFBMQBW' + '&v=20170626' + '&query=' + this.name; 
+	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?' + this.lat + ',' + this.lng + +'&client_id=' + 'MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A' + '&client_secret=' + 'DCMTED1NBXVYU2UB1F35UUOAEROL4TA30K2XARLIWUDZGJGH' + '&v=20161016' + '&query=' + this.name; 
 
 	$.getJSON(foursquareURL).done(function(data) {
 		var results = data.response.venues[0];
@@ -121,8 +121,8 @@ function ViewModel() {
 		center: {lat: 43.78444, lng: -88.787868}
 	});
 
-	clientID = "MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A";
-	clientSecret = "RVOVYY5PK5MTOVLQV03K5ZZRD2B444VCNY0FSBYCJDFBMQBW"
+	client_ID = "MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A";
+	client_Secret = "DCMTED1NBXVYU2UB1F35UUOAEROL4TA30K2XARLIWUDZGJGH";
 
 	locations.forEach(function(locationItem){
 		self.locationsList.push(new Location(locationItem));
