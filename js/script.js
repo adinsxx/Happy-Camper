@@ -39,12 +39,12 @@ var Location = function (data) {
 	this.lng = data.lng;
 	this.URL = "";
 	this.street = "";
-	this.city = "";
+	this.state = "";
 	this.phone = "";
 
 	this.visible = ko.observable(true);
 
-	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?11=' + this.lat + ',' + this.lng + '&client_id=' + 'MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A' + '&client_secret=' + 'DCMTED1NBXVYU2UB1F35UUOAEROL4TA30K2XARLIWUDZGJGH' + '&v=20170627' + '&query=' + this.name; 
+	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + this.lat + ',' + this.lng  + '&client_id=' + client_ID + '&client_secret=' + client_Secret +'&v=20170627' + '&query=' + this.name;
 
 	$.getJSON(foursquareURL).done(function(data) {
 		var results = data.response.venues[0];
@@ -54,12 +54,12 @@ var Location = function (data) {
 
 		}
 		self.street = results.location.formattedAddress[0];
-	self.state = results.location.vformattedAddress[1];
-	self.phone = results.contact.phone;
+		self.state = results.location.formattedAddress[1];
+		self.phone = results.contact.phone;
 	if (typeof self.phone === 'undefined'){
 			   self.phone = "";
 		} else {
-				self.phone = formatPhone(self.phone);
+		self.phone = formatPhone(self.phone);
 		}
 	}).fail(function(){
 		alert("There was an error retreiving information from foursquare. Please refresh the page try again.")
