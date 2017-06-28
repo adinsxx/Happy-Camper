@@ -1,5 +1,5 @@
 'use strict';
-
+// Model containing locations
 var locations = [
 	{
 		name: "Devil's Lake State Park",
@@ -28,10 +28,12 @@ var locations = [
 	}
 ];
 
+//Global variables for the application
 var map;
 var client_ID;
 var client_Secret;
 
+//Used this function to format the phone numbers of the locations properly
 function formatPhone(phonenum) {
     var regexObj = /^(?:\+?1[-. ]?)?(?:\(?([0-9]{3})\)?[-. ]?)?([0-9]{3})[-. ]?([0-9]{4})$/;
     if (regexObj.test(phonenum)) {
@@ -47,6 +49,7 @@ function formatPhone(phonenum) {
     }
 }
 
+//Contstructor for all of the data being applied to the map
 var Location = function (data) {
 	var self = this;
 	this.name = data.name;
@@ -59,6 +62,7 @@ var Location = function (data) {
 
 	this.visible = ko.observable(true);
 
+	//JSON request to grab foursquare info
 	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + this.lat + ',' + this.lng  + '&client_id=' + client_ID + '&client_secret=' + client_Secret +'&v=20170627' + '&query=' + this.name;
 
 	$.getJSON(foursquareURL).done(function(data) {
@@ -87,7 +91,7 @@ var Location = function (data) {
 	'<div class="content">' + self.phone + "</div></div>";
 
 	this.infoWindow = new google.maps.InfoWindow({content: self.contentString});
-
+	//Set up marker
 	this.marker = new google.maps.Marker({
 		position: new google.maps.LatLng(data.lat, data.lng),
 		map: map,
@@ -123,8 +127,9 @@ var Location = function (data) {
 		google.maps.event.trigger(self.marker, 'click');
 	};
 };
-
+//Communicates between the model and the view
 function ViewModel() {
+	//Adds a certain style to the map
 	var styles = [
     {
         "featureType": "all",
@@ -187,6 +192,7 @@ function ViewModel() {
 
 	this.locationsList = ko.observableArray([]);
 
+	//displays the map and centers on Wisconsin specifically
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 8,
 		center: {lat: 43.78444, lng: -88.787868},
@@ -200,6 +206,7 @@ function ViewModel() {
 		self.locationsList.push(new Location(locationItem));
 	});
 
+	//Filtered the locations by search params
 	self.filteredList = ko.computed(function() {
 		var filter = self.searchInput().toLowerCase();
 		if(!filter) {
