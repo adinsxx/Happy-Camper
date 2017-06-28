@@ -229,6 +229,7 @@ function ViewModel() {
 }
 
 function startApp() {
+	'use strict';
 	ko.applyBindings(new ViewModel());
 }
 
