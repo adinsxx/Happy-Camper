@@ -1,3 +1,4 @@
+// Location Data
 var locations = [
     { 
       name: "Devil's Lake State Park",
@@ -33,164 +34,42 @@ var locations = [
       name: "Governor Dodge State Park",
       lat: 43.027903,
       lng: -90.110189
-    },
+    }
     
 ];
 
-// Map constructors 
+// Map constructor
 var map;
-var marker;
+var markers = [];
 
-function initMap() {
-  var styles = [
-    {
-        "featureType": "administrative",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": "-100"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.province",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": -100
-            },
-            {
-                "lightness": 65
-            },
-            {
-                "visibility": "on"
-            }
-        ]
-    },
-    {
-        "featureType": "poi",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": -100
-            },
-            {
-                "lightness": "50"
-            },
-            {
-                "visibility": "simplified"
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": "-100"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "simplified"
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "all",
-        "stylers": [
-            {
-                "lightness": "30"
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "all",
-        "stylers": [
-            {
-                "lightness": "40"
-            }
-        ]
-    },
-    {
-        "featureType": "transit",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": -100
-            },
-            {
-                "visibility": "simplified"
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "hue": "#ffff00"
-            },
-            {
-                "lightness": -25
-            },
-            {
-                "saturation": -97
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "labels",
-        "stylers": [
-            {
-                "lightness": -25
-            },
-            {
-                "saturation": -100
-            }
-        ]
-    }
-]
+var initMap = function (data) {
+  this.name = ko.observable(data.name);
+  this.lat = ko.observable(data.lat);
+  this.lng = ko.observable(data.lng);
 
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat:43.78444, lng:-88.787868},
     zoom: 8,
     mapTypeControl: false,
-    styles: styles,
     MapTypeId: google.maps.MapTypeId.HYBRID
+  });
+
+  infoWindow = new google.maps.InfoWindow();
+  this.marker = new google.maps.Marker({
+    position: new google.maps.LatLng(),
+    map: map,
+    title: this.name
+  });
+};
+
+function ViewModel() {
+  var self = this;
+
+  this.locationList = ko.observableArray([]);
+
+  locations.forEach(function(locationItem){
+    self.locationList.push(new initMap(locationItem) );
   });
 
 };
 
-function CampViewModel(){
-  var self = this;
-  this.name = ko.observable();
-  this.lat = ko.observable();
-  this.lng = ko.observable();
-
-  for (var i = 0; i < locations.length; i++) {
-    var position = locations[i].location;
-    var name = locations[i].name;
-    var marker = new.google.maps.Marker({
-      position: location,
-      map: map,
-      animation: google.maps.animation.DROP
-    });
-  }
-}
