@@ -42,7 +42,7 @@ var locations = [
 var map;
 var markers = [];
 
-var initMap = function (data) {
+var Place = function (data) {
   this.name = ko.observable(data.name);
   this.lat = ko.observable(data.lat);
   this.lng = ko.observable(data.lng);
@@ -68,8 +68,12 @@ function ViewModel() {
   this.locationList = ko.observableArray([]);
 
   locations.forEach(function(locationItem){
-    self.locationList.push(new initMap(locationItem) );
+    self.locationList.push(new Place(locationItem) );
   });
 
+  this.currentPlace = ko.observable(this.locationList[0]);
+
 };
+
+ko.applyBindings(new ViewModel());
 
