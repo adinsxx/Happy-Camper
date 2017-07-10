@@ -62,11 +62,7 @@ function initMap(data) {
         animation: google.maps.Animation.DROP,
         id: i
       });
-    markers.push(marker);
-
-    marker.addListener('click', function() {
-      populateInfoWindow(this, infoWindow);
-    });
+    
   }
 
   function populateInfoWindow(marker, infowindow) {
@@ -78,20 +74,29 @@ function initMap(data) {
       });
     } 
   }
-
-}
-
-var Place = function (map, data) {
+  var Place = function (map, data) {
   this.name = ko.observable(data.name);
   this.lat = ko.observable(data.lat);
   this.lng = ko.observable(data.lng);
-};
+  };
+
+  function ViewModel() {
+  var self = this;
+
+  self.locationList = ko.observableArray
+  
+    markers.push(marker);
+    marker.addListener('click', function() {
+      populateInfoWindow(self, infoWindow);
+    });
+  };
+
+}
 
 
 
-// function ViewModel() {
-//   var self = this;
 
-// };
+
+
 
 
