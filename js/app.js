@@ -14,37 +14,37 @@ function initMap(data) {
     // Location Data
   var locations = [
       { 
-        name: "Devil's Lake State Park",
+        title: "Devil's Lake State Park",
         lat: 43.428447,
         lng: -89.731368
       },
       { 
-        name: "High Cliff State Park",
+        title: "High Cliff State Park",
         lat: 44.163103,
         lng: -88.29097
       },
       { 
-        name: "Harrington Beach State Park",
+        title: "Harrington Beach State Park",
         lat: 43.492876,
         lng: -87.803664
       },
       { 
-        name: "Kohler-Andrae State Park",
+        title: "Kohler-Andrae State Park",
         lat: 43.664985,
         lng: -87.719721
       },
       { 
-        name: "Blue Mound State Park",
+        title: "Blue Mound State Park",
         lat: 43.0295,
         lng: -89.840716
       },
       { 
-        name: "Rocky Arbor State Park",
+        title: "Rocky Arbor State Park",
         lat: 43.641944,
         lng: -89.805833
       },
       { 
-        name: "Governor Dodge State Park",
+        title: "Governor Dodge State Park",
         lat: 43.027903,
         lng: -90.110189
       }
@@ -54,16 +54,29 @@ function initMap(data) {
 
     for (var i = 0; i < locations.length; i++) {
     var position = {lat: locations[i].lat, lng: locations[i].lng};
-    var title = locations[i].name;
+    var title = locations[i].title;
     var  marker = new google.maps.Marker({
         position: position,
         map: map,
-        title: name,
+        title: title,
         animation: google.maps.Animation.DROP,
-        name: name,
         id: i
       });
     markers.push(marker);
+
+    marker.addListener('click', function() {
+      populateInfoWindow(this, infoWindow);
+    });
+  }
+
+  function populateInfoWindow(marker, infowindow) {
+    if (infowindow.marker != marker) {
+      infowindow.setContent('');
+      infowindow.marker = marker;
+      infowindow.addListener('closelick', function(){
+        infowindow.marker = null;
+      });
+    } 
   }
 
 }
@@ -73,6 +86,8 @@ var Place = function (map, data) {
   this.lat = ko.observable(data.lat);
   this.lng = ko.observable(data.lng);
 };
+
+
 
 // function ViewModel() {
 //   var self = this;
