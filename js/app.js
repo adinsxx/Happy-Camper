@@ -50,11 +50,14 @@ function initMap(data) {
       }
     ];
 
+    var infoWindow = new google.maps.InfoWindow();
+
     for (var i = 0; i < locations.length; i++) {
-    var position = locations[i].location;
+    var position = {lat: locations[i].lat, lng: locations[i].lng};
     var title = locations[i].name;
     var  marker = new google.maps.Marker({
         position: position,
+        map: map,
         title: name,
         animation: google.maps.Animation.DROP,
         name: name,
@@ -63,13 +66,13 @@ function initMap(data) {
     markers.push(marker);
   }
 
+}
 
-  var Place = function (map, data) {
+var Place = function (map, data) {
   this.name = ko.observable(data.name);
   this.lat = ko.observable(data.lat);
   this.lng = ko.observable(data.lng);
 };
-}
 
 // function ViewModel() {
 //   var self = this;
