@@ -74,29 +74,26 @@ function initMap(data) {
       });
     } 
   }
-  var Place = function (map, data) {
-  this.name = ko.observable(data.name);
-  this.lat = ko.observable(data.lat);
-  this.lng = ko.observable(data.lng);
-  };
-
-  function ViewModel() {
-  var self = this;
-
-  self.locationList = ko.observableArray
-  
-    markers.push(marker);
-    marker.addListener('click', function() {
-      populateInfoWindow(self, infoWindow);
-    });
-  };
 
 }
 
+var Place = function (map, data) {
+  this.name = ko.observable(data.name);
+  this.lat = ko.observable(data.lat);
+  this.lng = ko.observable(data.lng);
+};
 
 
 
+var ViewModel = function(marker, infowindow) {
+  var self = this;
 
+  this.locationList = ko.observableArray
+  markers.push(marker);
 
+    marker.addListener('click', function() {
+      populateInfoWindow(this, infoWindow);
+    });
+};
 
 
