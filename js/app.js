@@ -50,8 +50,6 @@ function initMap(data) {
       }
     ];
 
-    
-
     for (var i = 0; i < locations.length; i++) {
     var position = {lat: locations[i].lat, lng: locations[i].lng};
     var title = locations[i].title;
@@ -63,6 +61,7 @@ function initMap(data) {
         id: i
       });   
       markers.push(marker)
+
   }
 }
 
@@ -73,9 +72,6 @@ var Place = function (map, data) {
 
 
   var infoWindow = new google.maps.InfoWindow();
-  marker.addListener('click', function() {
-        populateInfoWindow(this, infoWindow);
-      });
 
   function populateInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
@@ -114,6 +110,9 @@ var Place = function (map, data) {
           infowindow.open(map, marker);
       }
     }
+    marker.addListener('click', function() {
+        populateInfoWindow(this, infoWindow);
+      });
 
     var fourSquare = {
       clientID: "",
