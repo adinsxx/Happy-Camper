@@ -27,3 +27,12 @@ body {
         width: 200px;
         height: 200px;
       }
+
+.leaflet-marker-icon {
+      background: url(https://foursquare.com/img/pin-blue-transparent.png);
+      padding: 6px;
+      padding-bottom: 17px;
+      top: -6px;
+      left: -6px;
+      }
+  </style>

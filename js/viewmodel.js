@@ -1,96 +1,45 @@
-// Map constructor
-var map;
-var markers = [];
-
-function initMap(data) {
-  var LatLng = {lat:43.78444, lng:-88.787868};
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: LatLng,
-    zoom: 8,
-    mapTypeControl: false,
-    MapTypeId: google.maps.MapTypeId.HYBRID
-  });
-
-    for (var i = 0; i < locations.length; i++) {
-    var position = {lat: locations[i].lat, lng: locations[i].lng};
-    var title = locations[i].title;
-    var  marker = new google.maps.Marker({
-        position: position,
-        map: map,
-        title: title,
-        animation: google.maps.Animation.DROP,
-        id: i
-      });   
-      markers.push(marker)
-  }
-}
-
-var Place = function (map, data) {
-  this.name = ko.observable(data.name);
-  this.lat = ko.observable(data.lat);
-  this.lng = ko.observable(data.lng);
-
-
-  var infoWindow = new google.maps.InfoWindow();
-
-  function populateInfoWindow(marker, infowindow) {
-    if (infowindow.marker != marker) {
-      infowindow.setContent('<div>' + marker.title + '<br> loading data </div>');
-      infowindow.marker = marker;
-      infowindow.addListener('closelick', function(){
-        infowindow.marker = null;
-      });
-      var streetViewService = new google.maps.streetViewService();
-      var radius = 50;
-
-      function getStreetView(data, status) {
-        if (status == google.maps.StreetViewStatus.OK) {
-              var nearStreetViewLocation = data.location.latLng;
-              var heading = google.maps.geometry.spherical.computeHeading(
-                nearStreetViewLocation, marker.position);
-                infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
-                var panoramaOptions = {
-                  position: nearStreetViewLocation,
-                  pov: {
-                    heading: heading,
-                    pitch: 30
-                  }
-                };
-              var panorama = new google.maps.StreetViewPanorama(
-                document.getElementById('pano'), panoramaOptions);
-            } else {
-              infowindow.setContent('<div>' + marker.title + '</div>' +
-                '<div>No Street View Found</div>'); 
-             }
-          }
-          // Use streetview service to get the closest streetview image within
-          // 50 meters of the markers position
-          streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-          // Open the infowindow on the correct marker.
-          infowindow.open(map, marker);
-      }
-    }
-    marker.addListener('click', function() {
-        populateInfoWindow(this, infoWindow);
-      });
-
-    var fourSquare = {
-      clientID: "",
-      clientSecret: "",
-      authorize: function(){
-        var url
-      }
-    }
-  }
-
-
-
-var ViewModel = function() {
+var ViewModel = function (map, data) {
   var self = this;
-  this.locationList = ko.observableArray
+  this.query = ko.observable('');
+  this.locationsList = ko.observableArray([]);
+  this.markers = ko.observableArray([]);
+  this.title = ko.observableArray([]);
 
+  var config = {
+    apiKey: "MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A",
+    authUrl: "https://foursquare.com/",
+    apiUrl: 'https://api.foursquare.com/'
+  };
+
+  function doAuthRedirect() {
+    var redirect = window.location.href.replace(window.location.hash, '');
+    var url = config.authUrl + 'oauth2/authenticate?response_type=token&client_id=' + config.apiKey + 
+        '&redirect_uri=' + encodeURIComponent(redirect) + 
+        '&state=' + encodeURIComponent(window.location.hash);
+    window.location.href = url;
+  };
+
+  $.getJSON(config.apiUrl + 'v2/venues/explore?11=' + lat + ',' + lng + '&oauth_token=' + window.token + '&v=20170711', {}, function(data){
+    venues = data['response']['groups'][0]['items'];
+    for (var i = 0; i < venues.length; i++) {
+      var latLng = new L.LatLng(
+        venues[i]['venue']['location']['lat'],
+        venues[i]['venue']['location']['lng']
+      );
+      var fsqIcon = venues[i]['venue']['categories'][0]['icon'];
+      var leafletIcon = L.Icon.extend({
+        iconUrl: fsqIcon['prefix'] + '32' + fsqIcon['suffix'],
+        shadowUrl: null,
+        iconSize: new L.Point(32, 32),
+        iconAnchor: new L.Point(16, 41),
+        popupAnchor: new L.Point(0, -51)
+      });
+      var icon = new leafletIcon();
+      var marker = new L.Marker(latLng, {icon: icon})
+        .bindPopup(venues[i]['venue']['name'], {closeButton: false})
+        .on('mouseover', function(e) { this.openPopup();})
+        .on('mouseout', function(e) { this.closePopup();})
+      map.addLayer(marker);
+    }
+  })
 };
-
-ko.applyBindings(new ViewModel());
-
-
