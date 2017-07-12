@@ -1,9 +1,8 @@
-var ViewModel = function (map, data) {
+var ViewModel = function (data) {
   var self = this;
   this.query = ko.observable('');
   this.locationsList = ko.observableArray([]);
   this.markers = ko.observableArray([]);
-  this.title = ko.observableArray([]);
 
   var config = {
     apiKey: "MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A",

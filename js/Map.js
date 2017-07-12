@@ -5,6 +5,13 @@ var infoWindow;
 
 function initMap(data) {
 
+  var Place = function(data) {
+  var self = this;
+  self.title = data.title;
+  self.lat = data.lat;
+  self.lng = data.lng;
+};
+
 
   var LatLng = {lat:43.78444, lng:-88.787868};
   map = new google.maps.Map(document.getElementById('map'), {
@@ -44,11 +51,8 @@ function initMap(data) {
           infoWindow.open(map, marker);
       }
   }
-var self = this;
-self.title = data.title;
-self.lat = data.lat;
-self.lng = data.lng;
+ko.applyBindings(new ViewModel(data));
 
-ko.applyBindings(new ViewModel());
-};
+}
+
 
