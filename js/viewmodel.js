@@ -19,7 +19,7 @@ var ViewModel = function (map, data) {
     window.location.href = url;
   };
 
-  $.getJSON(config.apiUrl + 'v2/venues/explore?11=' + lat + ',' + lng + '&oauth_token=' + window.token + '&v=20170711', {}, function(data){
+  $.getJSON(config.apiUrl + 'v2/venues/explore?11=' + data.lat + ',' + data.lng + '&oauth_token=' + window.token + '&v=20170711', {}, function(data){
     venues = data['response']['groups'][0]['items'];
     for (var i = 0; i < venues.length; i++) {
       var latLng = new L.LatLng(
