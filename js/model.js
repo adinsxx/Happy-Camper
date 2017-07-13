@@ -2,7 +2,8 @@
       { 
         title: "Devil's Lake State Park",
         lat: 43.428447,
-        lng: -89.731368
+        lng: -89.731368,
+
       },
       { 
         title: "High Cliff State Park",

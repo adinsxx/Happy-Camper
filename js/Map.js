@@ -51,7 +51,7 @@ function initMap(data) {
           infoWindow.open(map, marker);
       }
   }
-ko.applyBindings(new ViewModel(data));
+ko.applyBindings(new ViewModel(locations[0]));
 
 }
 

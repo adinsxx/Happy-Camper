@@ -4,41 +4,27 @@ var ViewModel = function (data) {
   this.locationsList = ko.observableArray([]);
   this.markers = ko.observableArray([]);
 
-  var config = {
-    apiKey: "MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A",
-    authUrl: "https://foursquare.com/",
-    apiUrl: 'https://api.foursquare.com/'
-  };
+  var CLIENT_ID = 'MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A'
+  var CLIENT_SECRET = 'DCMTED1NBXVYU2UB1F35UUOAEROL4TA30K2XARLIWUDZGJGH'
+  var url = 'https://api.foursquare.com/v2/venues/explore'
+  var VERSION = '20170712'
 
-  function doAuthRedirect() {
-    var redirect = window.location.href.replace(window.location.hash, '');
-    var url = config.authUrl + 'oauth2/authenticate?response_type=token&client_id=' + config.apiKey + 
-        '&redirect_uri=' + encodeURIComponent(redirect) + 
-        '&state=' + encodeURIComponent(window.location.hash);
-    window.location.href = url;
-  };
+  $.ajax({
+    url: url,
+    dataType: 'json',
+    data: {
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+      v: VERSION,
+      asnyc: true
 
-  $.getJSON(config.apiUrl + 'v2/venues/explore?11=' + data.lat + ',' + data.lng + '&oauth_token=' + window.token + '&v=20170711', {}, function(data){
-    venues = data['response']['groups'][0]['items'];
-    for (var i = 0; i < venues.length; i++) {
-      var latLng = new L.LatLng(
-        venues[i]['venue']['location']['lat'],
-        venues[i]['venue']['location']['lng']
-      );
-      var fsqIcon = venues[i]['venue']['categories'][0]['icon'];
-      var leafletIcon = L.Icon.extend({
-        iconUrl: fsqIcon['prefix'] + '32' + fsqIcon['suffix'],
-        shadowUrl: null,
-        iconSize: new L.Point(32, 32),
-        iconAnchor: new L.Point(16, 41),
-        popupAnchor: new L.Point(0, -51)
-      });
-      var icon = new leafletIcon();
-      var marker = new L.Marker(latLng, {icon: icon})
-        .bindPopup(venues[i]['venue']['name'], {closeButton: false})
-        .on('mouseover', function(e) { this.openPopup();})
-        .on('mouseout', function(e) { this.closePopup();})
-      map.addLayer(marker);
+    },()
+    success: function(data) {
+
+      console.log(data);
+
     }
-  })
+  }).fail(function (e) {
+    
+  });
 };
