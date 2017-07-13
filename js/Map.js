@@ -58,10 +58,9 @@ function initMap(data) {
           client_id: CLIENT_ID,
           client_secret: CLIENT_SECRET,
           v: VERSION,
-          near: 'Wisconsin',
+          ll: marker.position.lat() + ',' + marker.position.lng(),
           query: "food",
           asnyc: true
-
         },
         success: function(data) {
 
@@ -72,6 +71,7 @@ function initMap(data) {
           infoWindow.marker = null;
           }); 
           
+
           infoWindow.open(map, marker);
           console.log(data);
         }
