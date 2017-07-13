@@ -58,28 +58,29 @@ function initMap(data) {
           client_id: CLIENT_ID,
           client_secret: CLIENT_SECRET,
           v: VERSION,
-          near:,
+          near: 'Wisconsin',
           query: "food",
           asnyc: true
 
         },
         success: function(data) {
-        var venue = data.title;
 
          if (infoWindow.marker != marker) {
           infoWindow.marker = marker;
-          infoWindow.setContent('<div>' + '<b>' + venue + '</b>');
+          infoWindow.setContent('<div>' + '<b>' + position + '</b>' + '</div>');
           infoWindow.addListener('closelick', function(){
-            infoWindow.marker = null;
-          infoWindow.open(map, marker);
+          infoWindow.marker = null;
           }); 
-          }
-          console.log(venue);
+          
+          infoWindow.open(map, marker);
+          console.log(data);
+        }
 
         }
       }).fail(function (e) {
         
       });
+
   }
 ko.applyBindings(new ViewModel(locations[0]));
 
