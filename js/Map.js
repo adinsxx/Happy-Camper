@@ -10,6 +10,7 @@ function initMap(data) {
   self.title = data.title;
   self.lat = data.lat;
   self.lng = data.lng;
+  self.foursquareID = data.foursquareID;
 };
 
 
@@ -21,7 +22,6 @@ function initMap(data) {
     MapTypeId: google.maps.MapTypeId.HYBRID
   });
 
-      var infoWindow = new google.maps.InfoWindow();
 
 
       for (var i = 0; i < locations.length; i++) {
@@ -42,14 +42,44 @@ function initMap(data) {
   }
 
   function populateInfoWindow(marker, infoWindow) {
-    if (infoWindow.marker != marker) {
-      infoWindow.setContent('');
-      infoWindow.marker = marker;
-      infoWindow.addListener('closelick', function(){
-        infoWindow.marker = null;
-      });
+
+      var infoWindow = new google.maps.InfoWindow();
+
+      var CLIENT_ID = 'MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A';
+      var CLIENT_SECRET = 'DCMTED1NBXVYU2UB1F35UUOAEROL4TA30K2XARLIWUDZGJGH';
+      var VERSION = '20170712';
+
+        var url = 'https://api.foursquare.com/v2/venues/explore?v=20170713' 
+
+        $.ajax({
+        url: url,
+        dataType: 'json',
+        data: {
+          client_id: CLIENT_ID,
+          client_secret: CLIENT_SECRET,
+          v: VERSION,
+          near:,
+          query: "food",
+          asnyc: true
+
+        },
+        success: function(data) {
+        var venue = data.title;
+
+         if (infoWindow.marker != marker) {
+          infoWindow.marker = marker;
+          infoWindow.setContent('<div>' + '<b>' + venue + '</b>');
+          infoWindow.addListener('closelick', function(){
+            infoWindow.marker = null;
           infoWindow.open(map, marker);
-      }
+          }); 
+          }
+          console.log(venue);
+
+        }
+      }).fail(function (e) {
+        
+      });
   }
 ko.applyBindings(new ViewModel(locations[0]));
 
