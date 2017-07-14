@@ -4,7 +4,7 @@ var ViewModel = function (data) {
   this.locationList = ko.observableArray([]);
   this.query = ko.observable();
 
-  this.queryResult = ko.computed(function() {
-  	return this.locationList() + this.title;
-  }, this);
+  locations.forEach(function (locationItem) {
+  	self.locationList.push(new Location(locationItem) );
+  });
 };
