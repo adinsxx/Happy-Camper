@@ -49,7 +49,7 @@ function initMap(data) {
       var CLIENT_SECRET = 'DCMTED1NBXVYU2UB1F35UUOAEROL4TA30K2XARLIWUDZGJGH';
       var VERSION = '20170712';
 
-        var url = 'https://api.foursquare.com/v2/venues/explore?v=20170713' 
+        var url = 'https://api.foursquare.com/v2/venues/explore?v=20170713';
 
         $.ajax({
         url: url,
@@ -59,14 +59,14 @@ function initMap(data) {
           client_secret: CLIENT_SECRET,
           v: VERSION,
           ll: marker.position.lat() + ',' + marker.position.lng(),
-          query: "food",
+          section: 'drinks',
           asnyc: true
         },
         success: function(data) {
 
          if (infoWindow.marker != marker) {
           infoWindow.marker = marker;
-          infoWindow.setContent('<div>' + '<b>' + position + '</b>' + '</div>');
+          infoWindow.setContent('<div>' + '<b>' + title + '</b>' + '</div>' +  '<br>' + data.response.groups[0].items[0].venue.name);
           infoWindow.addListener('closelick', function(){
           infoWindow.marker = null;
           }); 
