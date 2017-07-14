@@ -36,7 +36,11 @@
       <input id="search" type="button" value="Go" data-bind="click: search">
       <div id="map"></div> 
       <div data-bind="foreach: locationList"> 
-        <ul><button data-bind="text: locations"></button></ul>
+        <ul>
+        <li>
+        <button data-bind="text: locations, click: $root.acitvateMarker"></button>
+        </li>
+        </ul>
       </div>
     </div>
   </div>

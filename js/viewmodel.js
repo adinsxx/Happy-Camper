@@ -1,5 +1,6 @@
 var Location = function (data) {
 	this.locations = data.title;
+	this.activateMarker = data.infoWindow;
 }
 
 var ViewModel = function (data) {
