@@ -1,3 +1,7 @@
+var Location = function (data) {
+	this.locations = data.title;
+}
+
 var ViewModel = function (data) {
   var self = this;
   this.title = ko.observableArray([]);
