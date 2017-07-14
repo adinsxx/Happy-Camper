@@ -66,7 +66,7 @@ function initMap(data) {
 
          if (infoWindow.marker != marker) {
           infoWindow.marker = marker;
-          infoWindow.setContent('<div>' + '<b>' + title + '</b>' + '</div>' +  '<br>' + data.response.groups[0].items[0].venue.name);
+          infoWindow.setContent('<div>' + '<b>' + marker.title + '</b>' + '</div>' + '<br>' + data.response.groups[0].items[0].venue.name);
           infoWindow.addListener('closelick', function(){
           infoWindow.marker = null;
           }); 

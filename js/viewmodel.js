@@ -1,6 +1,10 @@
 var ViewModel = function (data) {
   var self = this;
-  this.query = ko.observable('');
-  this.locationsList = ko.observableArray([]);
-  this.markers = ko.observableArray([]);
+  this.title = ko.observableArray([]);
+  this.locationList = ko.observableArray([]);
+  this.query = ko.observable();
+
+  this.queryResult = ko.computed(function() {
+  	return this.locationList() + this.title;
+  }, this);
 };
