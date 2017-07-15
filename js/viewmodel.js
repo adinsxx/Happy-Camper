@@ -1,6 +1,6 @@
 var Location = function (data) {
 	this.locations = data.title;
-	this.marker = data.locationList;
+	this.marker = data.marker;
 }
 
 var ViewModel = function (data) {
@@ -14,7 +14,7 @@ var ViewModel = function (data) {
   });
 
   this.activateMarker = function(location) {
-		google.maps.event.trigger(marker, 'click')
 		console.log(location)
+		google.maps.event.trigger(location.marker, 'click')
   };
 };
