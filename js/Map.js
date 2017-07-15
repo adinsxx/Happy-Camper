@@ -27,7 +27,7 @@ function initMap(data) {
       for (var i = 0; i < locations.length; i++) {
       var position = {lat: locations[i].lat, lng: locations[i].lng};
       var title = locations[i].title;
-      var marker = new google.maps.Marker({
+      locations[i].marker = new google.maps.Marker({
         position: position,
         map: map,
         title: title,
@@ -35,8 +35,8 @@ function initMap(data) {
         id: i
       });  
 
-      markers.push(marker);
-      marker.addListener('click', function() {
+      markers.push(locations[i].marker);
+      locations[i].marker.addListener('click', function() {
         populateInfoWindow(this, infoWindow);
       });
   }
