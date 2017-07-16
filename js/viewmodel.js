@@ -17,4 +17,6 @@ var ViewModel = function (data) {
 		console.log(location)
 		google.maps.event.trigger(location.marker, 'click')
   };
+
+  
 };

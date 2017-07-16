@@ -24,22 +24,23 @@ function initMap(data) {
 
 
 
-      for (var i = 0; i < locations.length; i++) {
-      var position = {lat: locations[i].lat, lng: locations[i].lng};
-      var title = locations[i].title;
-      locations[i].marker = new google.maps.Marker({
-        position: position,
-        map: map,
-        title: title,
-        animation: google.maps.Animation.DROP,
-        id: i
-      });  
+  for (var i = 0; i < locations.length; i++) {
+  var position = {lat: locations[i].lat, lng: locations[i].lng};
+  var title = locations[i].title;
+  locations[i].marker = new google.maps.Marker({
+    position: position,
+    map: map,
+    title: title,
+    animation: google.maps.Animation.DROP,
+    id: i
+  });  
 
-      markers.push(locations[i].marker);
-      locations[i].marker.addListener('click', function() {
-        populateInfoWindow(this, infoWindow);
-      });
+  markers.push(locations[i].marker);
+  locations[i].marker.addListener('click', function() {
+    populateInfoWindow(this, infoWindow);
+  });
   }
+
 
   function populateInfoWindow(marker, infoWindow) {
 
