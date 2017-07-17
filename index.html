@@ -32,11 +32,11 @@
   <div>
     <h2>Happy Camper</h2>
     <div>
-      <input id="search" type="text" placeholder="Search..." data-bind="value: $root.filter">
+      <input id="search" type="text" placeholder="Search..." data-bind="textInput: filter">
       <div id="map"></div> 
-      <div data-bind="foreach: locationList"> 
+      <div data-bind="foreach: filteredPlaces"> 
         <ul>
-        <span data-bind="text: locations, click: $root.activateMarker"></span>      
+        <span data-bind="text: name, click: $root.activateMarker"></span>      
         </ul>
       </div>
     </div>

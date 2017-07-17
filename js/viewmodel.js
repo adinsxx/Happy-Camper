@@ -1,5 +1,5 @@
 var Location = function (data) {
-	this.locations = data.title;
+	this.name = data.title;
 	this.marker = data.marker;
 }
 
@@ -22,15 +22,16 @@ var ViewModel = function (data) {
   this.filteredPlaces = ko.computed(function() {
   	var filter = self.filter().toLowerCase();
   	if(!filter) {
-  		locations.forEach(function(location) {
+  		self.locationList().forEach(function(location) {
   			if (location.marker) {
   						location.marker.setVisible(true);
   			}
   		});
-  			return location
+  			return self.locationList()
   	} else {
-  		return ko.utils.arrayFilter(location, function(location) {
-  			var searchValue = location.name.toLowerCase().indexOf(filter) !== -1;
+  		return ko.utils.arrayFilter(self.locationList(), function(location) {
+  			console.log(location);
+  			var searchValue = name.toLowerCase().indexOf(filter) !== -1;
   			location.marker.setVisible(searchValue);
   			return searchValue
   		});
