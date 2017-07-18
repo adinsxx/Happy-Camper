@@ -161,8 +161,11 @@ var styles = [
     id: i
   });  
 
+
   markers.push(locations[i].marker);
   locations[i].marker.addListener('click', function() {
+    map.setZoom(12);
+    map.setCenter(position)
     populateInfoWindow(this, infoWindow);
   });
   }

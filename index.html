@@ -36,7 +36,7 @@
   <div id="map"></div> 
   <div class="options-box">
     <div class="filtered-places">
-      <input type="text" placeholder="Search..." data-bind="textInput: filter">
+      <input id="search" type="text" placeholder="Search..." data-bind="textInput: filter">
       <div data-bind="foreach: filteredPlaces"> 
        <ul>
         <button data-bind="text: name, click: $root.activateMarker"></button>
