@@ -31,7 +31,7 @@ var ViewModel = function (data) {
   	} else {
   		return ko.utils.arrayFilter(self.locationList(), function(location) {
   			console.log(location);
-  			var searchValue = name.toLowerCase().indexOf(filter) !== -1;
+  			var searchValue = location.name.toLowerCase().indexOf(filter) !== -1;
   			location.marker.setVisible(searchValue);
   			return searchValue
   		});

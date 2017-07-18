@@ -10,16 +10,16 @@
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="css/normalize.css">
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-  <link rel="stylesheet" href="css/skeleton.css">
+<!--   <link rel="stylesheet" href="css/normalize.css"> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--   <link rel="stylesheet" href="css/skeleton.css"> -->
   <link rel="stylesheet" href="css/custom.css">
   
 
@@ -29,18 +29,22 @@
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div>
+<div class="container">
+  <div class="title">
     <h2>Happy Camper</h2>
-    <div>
-      <input id="search" type="text" placeholder="Search..." data-bind="textInput: filter">
-      <div id="map"></div> 
+  </div>
+  <div id="map"></div> 
+  <div class="options-box">
+    <div class="filtered-places">
+      <input type="text" placeholder="Search..." data-bind="textInput: filter">
       <div data-bind="foreach: filteredPlaces"> 
-        <ul>
-        <span data-bind="text: name, click: $root.activateMarker"></span>      
-        </ul>
+       <ul>
+        <button data-bind="text: name, click: $root.activateMarker"></button>
+        </ul>     
       </div>
     </div>
   </div>
+</div>
   
 
 <!-- End Document
