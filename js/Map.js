@@ -1,7 +1,7 @@
 // Map constructor
 var map;
 var markers = [];
-var infoWindow;
+
 
 function initMap(data) {
 
@@ -137,7 +137,7 @@ var styles = [
             }
         ]
     }
-]
+];
 
   var LatLng = {lat:43.527642, lng:-88.790131};
   map = new google.maps.Map(document.getElementById('map'), {
@@ -165,7 +165,7 @@ var styles = [
   markers.push(locations[i].marker);
   locations[i].marker.addListener('click', function() {
     map.setZoom(12);
-    map.setCenter(position)
+    map.setCenter(position);
     populateInfoWindow(this, infoWindow);
   });
   }
