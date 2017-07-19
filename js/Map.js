@@ -210,7 +210,7 @@ var styles = [
 
         }
       }).fail(function (e) {
-        
+          alert("There was an error with foursquare. Please refresh the page and try again");
       });
 
   }
