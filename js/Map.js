@@ -159,23 +159,23 @@ var styles = [
     title: title,
     animation: google.maps.Animation.DROP,
     id: i
-  });  
+  }); 
+    
 
+}
 
+function mapZoom() {
+  map.setZoom(12);
+  map.setCenter(position);
+  populateInfoWindow(this, infoWindow);
   markers.push(locations[i].marker);
-  locations[i].marker.addListener('click', function() {
-    map.setZoom(12);
-    map.setCenter(position);
-    populateInfoWindow(this, infoWindow);
-  });
-  }
+  locations[i].marker.addListener('click');
+ }
 
   var searchBox = new google.maps.places.Autocomplete(
     document.getElementById('search'));
 
   function populateInfoWindow(marker, infoWindow) {
-
-      var infoWindow = new google.maps.InfoWindow();
 
       var CLIENT_ID = 'MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A';
       var CLIENT_SECRET = 'DCMTED1NBXVYU2UB1F35UUOAEROL4TA30K2XARLIWUDZGJGH';
