@@ -17,8 +17,7 @@ input {
 }
 
 #map {
-  height: 900px;
-  width: 900px;
+  height: 100%;
   left: 360px;
   position: absolute;
   right: 0px;
