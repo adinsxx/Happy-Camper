@@ -38,7 +38,7 @@
     <div>
       <div id="filtered-places" class="small-12 large-8 columns">
         <div id="map" class="small-12 large-4 columns"></div>
-          <div class="small-12 large-4 columns" data-bind="foreach: filteredPlaces">
+          <div data-bind="foreach: filteredPlaces">
             <ul>
               <button data-bind="text: name, click: $root.activateMarker"></button>
             </ul>
