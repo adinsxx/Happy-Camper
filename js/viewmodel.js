@@ -3,7 +3,7 @@ var Location = function (data) {
 	this.marker = data.marker;
 }
 
-var ViewModel = function (data) {
+var ViewModel = function () {
   var self = this;
   this.title = ko.observableArray([]);
   this.locationList = ko.observableArray([]);

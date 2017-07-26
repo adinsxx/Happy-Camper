@@ -3,6 +3,10 @@ var map;
 var markers = [];
 var infoWindow;
 
+var mapError = function() {
+  alert("Map didn't load")
+}
+
 function initMap(data) {
 
   var Place = function(data) {
@@ -137,7 +141,9 @@ var styles = [
             }
         ]
     }
-]
+];
+
+  infoWindow = new google.maps.InfoWindow();
 
   var LatLng = {lat:43.527642, lng:-88.790131};
   map = new google.maps.Map(document.getElementById('map'), {
@@ -150,32 +156,32 @@ var styles = [
 
 
 
-  for (var i = 0; i < locations.length; i++) {
-  var position = {lat: locations[i].lat, lng: locations[i].lng};
-  var title = locations[i].title;
-  locations[i].marker = new google.maps.Marker({
+  locations.forEach(function(location) {
+  var position = {lat: location.lat, lng: location.lng};
+  var title = location.title;
+  location.marker = new google.maps.Marker({
     position: position,
     map: map,
     title: title,
-    animation: google.maps.Animation.DROP,
-    id: i
+    animation: google.maps.Animation.DROP
   });  
 
 
-  markers.push(locations[i].marker);
-  locations[i].marker.addListener('click', function() {
-    map.setZoom(12);
-    map.setCenter(position)
-    populateInfoWindow(this, infoWindow);
+  markers.push(location.marker);
+  location.marker.addListener('click', activateMarker)
   });
-  }
+
+  function activateMarker() {
+    populateInfoWindow(this, infoWindow);
+    map.setZoom(12);
+    map.setCenter(this.position);
+    
+  };
 
   var searchBox = new google.maps.places.Autocomplete(
     document.getElementById('search'));
 
   function populateInfoWindow(marker, infoWindow) {
-
-      var infoWindow = new google.maps.InfoWindow();
 
       var CLIENT_ID = 'MEDC0WAGH4RJ5Q3VGZ3XYRAMPIYYY3RH04SN0QQ2FLRRZI4A';
       var CLIENT_SECRET = 'DCMTED1NBXVYU2UB1F35UUOAEROL4TA30K2XARLIWUDZGJGH';
@@ -199,7 +205,7 @@ var styles = [
          if (infoWindow.marker != marker) {
           infoWindow.marker = marker;
           infoWindow.setContent('<div>' + '<b>' + marker.title + '</b>' + '</div>' + '<br>' + data.response.groups[0].items[0].venue.name);
-          infoWindow.addListener('closelick', function(){
+          infoWindow.addListener('closeclick', function(){
           infoWindow.marker = null;
           }); 
           
@@ -210,10 +216,10 @@ var styles = [
 
         }
       }).fail(function (e) {
-        
+        //add alert message
       });
 
   }
-ko.applyBindings(new ViewModel(locations[0]));
+ko.applyBindings(new ViewModel());
 
 }
