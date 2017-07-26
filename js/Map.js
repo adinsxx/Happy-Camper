@@ -4,8 +4,8 @@ var markers = [];
 var infoWindow;
 
 var mapError = function() {
-  alert("Map didn't load")
-}
+  alert("Map didn't load");
+};
 
 function initMap(data) {
 
@@ -168,7 +168,7 @@ var styles = [
 
 
   markers.push(location.marker);
-  location.marker.addListener('click', activateMarker)
+  location.marker.addListener('click', activateMarker);
   });
 
   function activateMarker() {
@@ -176,7 +176,7 @@ var styles = [
     map.setZoom(12);
     map.setCenter(this.position);
     
-  };
+  }
 
   var searchBox = new google.maps.places.Autocomplete(
     document.getElementById('search'));
@@ -216,7 +216,7 @@ var styles = [
 
         }
       }).fail(function (e) {
-        alert("There was an error with Foursquare API. Please refreash and try again.")
+        alert("There was an error with Foursquare API. Please refreash and try again.");
       });
 
   }
