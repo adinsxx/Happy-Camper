@@ -216,7 +216,7 @@ var styles = [
 
         }
       }).fail(function (e) {
-        //add alert message
+        alert("There was an error with Foursquare API. Please refreash and try again.")
       });
 
   }
