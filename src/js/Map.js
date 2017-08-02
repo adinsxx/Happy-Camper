@@ -160,7 +160,7 @@ function initMap(data) {
                 location.marker.setAnimation(google.maps.Animation.BOUNCE);
             }
             setTimeout(function() {
-                location.marker.setAnimation(null)
+                location.marker.setAnimation(null);
             }, 3000);
         }
     });
