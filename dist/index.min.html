@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Happy Camper</title>
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+<div id="wrapper">
+<div id="sidebar-wrapper">
+<ul class="sidebar-nav">
+<input class="form-control" placeholder="Search..." data-bind="textInput: filter">
+<li class="sidebar-brand">
+</li><li>
+<a href="">
+<h3>Top Campsites</h3>
+</a>
+</li>
+
+<div class="col-4" data-bind="foreach: filteredPlaces">
+<li type="submit" data-bind="text: name, click: $root.activateMarker">
+</li>
+</div>
+</ul>
+</div>
+<div id="page-content-wrapper">
+<div class="container-fluid">
+<div class="row">
+<header>
+<div class="col-9">
+<h1>Happy Camper</h1>
+</div>
+<a href="#menu-toggle" class="bt btn-default" id="menu-toggle">Toggle Listview</a>
+</header>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12" id="map"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<script src="js/Map.js"></script>
+<script src="js/viewmodel.js"></script>
+<script src="js/model.js"></script>
+<script async defer onerror="mapError()" src="https://maps.googleapis.com/maps/api/js?key=YOURKEYHEREs&v=3&callback=initMap&libraries=places"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>$("#menu-toggle").click(function(e){e.preventDefault(),$("#wrapper").toggleClass("toggled")})</script>
+</body>
+</html>
