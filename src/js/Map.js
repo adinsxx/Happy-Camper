@@ -171,8 +171,8 @@ function initMap(data) {
         map.setCenter(this.position);
     }
 
-    var searchBox = new google.maps.places.Autocomplete(
-        document.getElementById('search'));
+    // var searchBox = new google.maps.places.Autocomplete(
+    //     document.getElementById('search'));
 
     function populateInfoWindow(marker, infoWindow) {
 
